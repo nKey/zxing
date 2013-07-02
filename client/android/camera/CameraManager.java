@@ -17,9 +17,11 @@
 package zxing.client.android.camera;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.hardware.Camera;
+import android.hardware.Camera.PictureCallback;
 import android.os.Handler;
 import android.util.Log;
 import android.view.SurfaceHolder;
@@ -27,6 +29,8 @@ import zxing.PlanarYUVLuminanceSource;
 import zxing.client.android.camera.open.OpenCameraManager;
 
 import java.io.IOException;
+
+import com.nkey.nic.common.Helper;
 
 /**
  * This object wraps the Camera service object and expects to be the only one talking to it. The
@@ -313,4 +317,13 @@ public final class CameraManager {
                                         rect.width(), rect.height(), false);
   }
 
+	public void takeAndSavePicture() {
+		Log.d("NIC_CAMERA", "takeAndSavePicture");
+		camera.takePicture(null, null, new PictureCallback() {
+			@Override
+			public void onPictureTaken(byte[] data, Camera camera) {
+		    	Helper.rotateAndSaveToFileSystem("scan_temp.jpg", BitmapFactory.decodeByteArray(data, 0, data.length, null));
+			}
+		});
+	}
 }

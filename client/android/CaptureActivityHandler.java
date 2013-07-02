@@ -85,6 +85,7 @@ public final class CaptureActivityHandler extends Handler {
         break;
       case R.id.decode_succeeded:
         Log.d(TAG, "Got decode succeeded message");
+      	cameraManager.takeAndSavePicture();
         state = State.SUCCESS;
         Bundle bundle = message.getData();
         Bitmap barcode = null;
