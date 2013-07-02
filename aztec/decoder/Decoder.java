@@ -92,20 +92,15 @@ public final class Decoder {
   public DecoderResult decode(AztecDetectorResult detectorResult) throws FormatException {
     ddata = detectorResult;
     BitMatrix matrix = detectorResult.getBits();
-
     if (!ddata.isCompact()) {
       matrix = removeDashedLines(ddata.getBits());
     }
-
     boolean[] rawbits = extractBits(matrix);
-
     boolean[] correctedBits = correctBits(rawbits);
-
     String result = getEncodedData(correctedBits);
-
     return new DecoderResult(null, result, null, null);
   }
-
+  
   /**
    * Gets the string encoded in the aztec code bits
    *
