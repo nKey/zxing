@@ -30,7 +30,7 @@ import zxing.client.android.camera.open.OpenCameraManager;
 
 import java.io.IOException;
 
-import com.nkey.nic.common.Helper;
+import com.nkey.nic.common.ImageHelper;
 
 /**
  * This object wraps the Camera service object and expects to be the only one talking to it. The
@@ -322,7 +322,10 @@ public final class CameraManager {
 		camera.takePicture(null, null, new PictureCallback() {
 			@Override
 			public void onPictureTaken(byte[] data, Camera camera) {
-		    	Helper.rotateAndSaveToFileSystem("scan_temp.jpg", BitmapFactory.decodeByteArray(data, 0, data.length, null));
+				try{
+					ImageHelper.resizeRotateAndSaveToFileSystem(ImageHelper.scanPhotoTempName, BitmapFactory.decodeByteArray(data, 0, data.length, null), 1024);
+				}catch(Exception e){
+				}
 			}
 		});
 	}
