@@ -70,7 +70,7 @@ public final class CaptureActivity extends PortraitActivity implements SurfaceHo
   private Map<DecodeHintType,?> decodeHints;
   private String characterSet;
   private InactivityTimer inactivityTimer;
-  private VibrationManager vibrateManager;
+//  private VibrationManager vibrateManager;
 
   ViewfinderView getViewfinderView() {
     return viewfinderView;
@@ -94,7 +94,8 @@ public final class CaptureActivity extends PortraitActivity implements SurfaceHo
 
     hasSurface = false;
     inactivityTimer = new InactivityTimer(this);
-    vibrateManager = new VibrationManager(this);
+//    vibrateManager = new VibrationManager(this);
+//    VibrationManager.activity = this;
   }
 
   @Override
@@ -248,7 +249,7 @@ public final class CaptureActivity extends PortraitActivity implements SurfaceHo
 
     boolean fromLiveScan = (barcode != null);
     if (fromLiveScan) {
-      vibrateManager.vibrate();
+//      vibrateManager.vibrate();
       drawResultPoints(barcode, scaleFactor, rawResult);
     }
 

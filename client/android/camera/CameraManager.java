@@ -17,12 +17,12 @@
 package zxing.client.android.camera;
 
 import android.content.Context;
-import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.hardware.Camera;
 import android.hardware.Camera.PictureCallback;
 import android.os.Handler;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import zxing.PlanarYUVLuminanceSource;
@@ -319,12 +319,17 @@ public final class CameraManager {
 
 	public void takeAndSavePicture() {
 		Log.d("NIC_CAMERA", "takeAndSavePicture");
+		stopPreview();
+		camera.startPreview();
 		camera.takePicture(null, null, new PictureCallback() {
 			@Override
 			public void onPictureTaken(byte[] data, Camera camera) {
-				try{
-					ImageHelper.resizeRotateAndSaveToFileSystem(ImageHelper.scanPhotoTempName, BitmapFactory.decodeByteArray(data, 0, data.length, null), 1024);
-				}catch(Exception e){
+				camera.stopPreview();
+				Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+			    vibrator.vibrate(200);
+				try {
+					ImageHelper.resizeRotateAndSaveByteArrayToFileSystem(ImageHelper.scanPhotoTempName, data, 1024, 768);
+				} catch (Exception e) {
 				}
 			}
 		});
