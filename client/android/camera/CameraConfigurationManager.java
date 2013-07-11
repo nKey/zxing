@@ -129,7 +129,7 @@ final class CameraConfigurationManager {
 
 		/** set zoom to optimize to small codes **/
 		if (parameters.isZoomSupported()) {
-			int targetZoomRatio = 350;
+			int targetZoomRatio = 100;
 			// 3.5x, ideal to scan seals
 			int targetZoom = -1;
 			List<Integer> zoomRatios = parameters.getZoomRatios();

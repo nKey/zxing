@@ -320,11 +320,11 @@ public final class CameraManager {
 	public void takeAndSavePicture() {
 		Log.d("NIC_CAMERA", "takeAndSavePicture");
 		stopPreview();
-		camera.startPreview();
+		startPreview();
 		camera.takePicture(null, null, new PictureCallback() {
 			@Override
 			public void onPictureTaken(byte[] data, Camera camera) {
-				camera.stopPreview();
+				stopPreview();
 				Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
 			    vibrator.vibrate(200);
 				try {
