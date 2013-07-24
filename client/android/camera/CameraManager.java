@@ -318,20 +318,25 @@ public final class CameraManager {
   }
 
 	public void takeAndSavePicture() {
-		Log.d("NIC_CAMERA", "takeAndSavePicture");
+		Log.d("NIC_CAMERA", "takeAndSavePicture (camera is opened? "+isOpen()+")");
 		stopPreview();
 		startPreview();
-		camera.takePicture(null, null, new PictureCallback() {
-			@Override
-			public void onPictureTaken(byte[] data, Camera camera) {
-				stopPreview();
-				Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
-			    vibrator.vibrate(200);
-				try {
+		try {
+			camera.takePicture(null, null, new PictureCallback() {
+				@Override
+				public void onPictureTaken(byte[] data, Camera camera) {
+					stopPreview();
+					Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+				    vibrator.vibrate(200);
 					ImageHelper.resizeRotateAndSaveByteArrayToFileSystem(ImageHelper.scanPhotoTempName, data, 1024, 768);
-				} catch (Exception e) {
 				}
-			}
-		});
+			});
+		} catch (Exception e) {
+			//crittercism needs upgrade plan to handled messages work
+			//Crittercism.logHandledException(e);//new Exception("Unable to takePicture of a scanning code"));
+			Log.e("NIC_CAMERA", "ERROR ON takeAndSavePicture");
+			e.printStackTrace();
+			ImageHelper.removeFromFileSystem(ImageHelper.scanPhotoTempName);
+		}
 	}
 }
