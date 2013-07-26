@@ -318,7 +318,6 @@ public final class CameraManager {
   }
 
 	public void takeAndSavePicture() {
-		Log.d("NIC_CAMERA", "takeAndSavePicture (camera is opened? "+isOpen()+")");
 		stopPreview();
 		startPreview();
 		try {
@@ -334,7 +333,6 @@ public final class CameraManager {
 		} catch (Exception e) {
 			//crittercism needs upgrade plan to handled messages work
 			//Crittercism.logHandledException(e);//new Exception("Unable to takePicture of a scanning code"));
-			Log.e("NIC_CAMERA", "ERROR ON takeAndSavePicture");
 			e.printStackTrace();
 			ImageHelper.removeFromFileSystem(ImageHelper.scanPhotoTempName);
 		}
