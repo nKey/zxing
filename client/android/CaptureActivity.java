@@ -20,6 +20,15 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Map;
 
+import zxing.BarcodeFormat;
+import zxing.DecodeHintType;
+import zxing.Result;
+import zxing.ResultMetadataType;
+import zxing.ResultPoint;
+import zxing.client.android.camera.CameraManager;
+import zxing.client.android.result.ResultHandler;
+import zxing.client.android.result.ResultHandlerFactory;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -37,15 +46,6 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.nkey.nic.R;
-import com.nkey.nic.common.PortraitActivity;
-import zxing.BarcodeFormat;
-import zxing.DecodeHintType;
-import zxing.Result;
-import zxing.ResultMetadataType;
-import zxing.ResultPoint;
-import zxing.client.android.camera.CameraManager;
-import zxing.client.android.result.ResultHandler;
-import zxing.client.android.result.ResultHandlerFactory;
 
 /**
  * This activity opens the camera and does the actual scanning on a background thread. It draws a
@@ -55,7 +55,7 @@ import zxing.client.android.result.ResultHandlerFactory;
  * @author dswitkin@google.com (Daniel Switkin)
  * @author Sean Owen
  */
-public final class CaptureActivity extends PortraitActivity implements SurfaceHolder.Callback {
+public final class CaptureActivity extends Activity implements SurfaceHolder.Callback {
 
   private static final String TAG = CaptureActivity.class.getSimpleName();
   private static final long DEFAULT_INTENT_RESULT_DURATION_MS = 1500L;
