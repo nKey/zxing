@@ -71,6 +71,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
   private String characterSet;
   private InactivityTimer inactivityTimer;
 //  private VibrationManager vibrateManager;
+  public boolean photoCapture;
 
   ViewfinderView getViewfinderView() {
     return viewfinderView;
@@ -91,7 +92,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
     Window window = getWindow();
     window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     setContentView(R.layout.activity_scan_capture);
-
+    photoCapture = getIntent().getBooleanExtra("PHOTO_CAPTURE", true);
     hasSurface = false;
     inactivityTimer = new InactivityTimer(this);
 //    vibrateManager = new VibrationManager(this);
@@ -102,7 +103,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
   protected void onResume() {
     super.onResume();
     cameraManager = new CameraManager(getApplication());
-
+    cameraManager.setTakePicture(photoCapture);
     viewfinderView = (ViewfinderView) findViewById(R.id.viewfinder_view);
     viewfinderView.setCameraManager(cameraManager);
 

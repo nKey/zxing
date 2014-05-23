@@ -58,6 +58,7 @@ public final class CameraManager {
   private boolean previewing;
   private int requestedFramingRectWidth;
   private int requestedFramingRectHeight;
+  private boolean takePicture = true;
   /**
    * Preview frames are delivered here, which we pass on to the registered handler. Make sure to
    * clear the handler so it will only receive one message.
@@ -70,6 +71,10 @@ public final class CameraManager {
     previewCallback = new PreviewCallback(configManager);
   }
 
+  public void setTakePicture(boolean takePicture) {
+	this.takePicture = takePicture;
+}
+  
   /**
    * Opens the camera driver and initializes the hardware parameters.
    *
@@ -318,23 +323,26 @@ public final class CameraManager {
   }
 
 	public void takeAndSavePicture() {
-		stopPreview();
-		startPreview();
-		try {
-			camera.takePicture(null, null, new PictureCallback() {
-				@Override
-				public void onPictureTaken(byte[] data, Camera camera) {
-					stopPreview();
-					Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
-				    vibrator.vibrate(200);
-					ImageHelper.resizeRotateAndSaveByteArrayToFileSystem(ImageHelper.scanPhotoTempName, data, 1024, 768);
-				}
-			});
-		} catch (Exception e) {
-			//crittercism needs upgrade plan to handled messages work
-			//Crittercism.logHandledException(e);//new Exception("Unable to takePicture of a scanning code"));
-			e.printStackTrace();
-			ImageHelper.removeFromFileSystem(ImageHelper.scanPhotoTempName);
+		if (takePicture) {
+			stopPreview();
+			startPreview();
+			try {
+				camera.takePicture(null, null, new PictureCallback() {
+					@Override
+					public void onPictureTaken(byte[] data, Camera camera) {
+						Log.w("NK", "Picture Taken!");
+						stopPreview();
+						Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+					    vibrator.vibrate(200);
+						ImageHelper.resizeRotateAndSaveByteArrayToFileSystem(ImageHelper.scanPhotoTempName, data, 1024, 768);
+					}
+				});
+			} catch (Exception e) {
+				//crittercism needs upgrade plan to handled messages work
+				//Crittercism.logHandledException(e);//new Exception("Unable to takePicture of a scanning code"));
+				e.printStackTrace();
+				ImageHelper.removeFromFileSystem(ImageHelper.scanPhotoTempName);
+			}
 		}
 	}
 }
