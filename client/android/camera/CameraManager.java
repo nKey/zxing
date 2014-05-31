@@ -334,14 +334,14 @@ public final class CameraManager {
 						stopPreview();
 						Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
 					    vibrator.vibrate(200);
-						ImageHelper.resizeRotateAndSaveByteArrayToFileSystem(ImageHelper.scanPhotoTempName, data, 1024, 768);
+						ImageHelper.resizeRotateAndSaveByteArrayToSDCardPath(ImageHelper.scanPhotoTempName, data, 1024, 768);
 					}
 				});
 			} catch (Exception e) {
 				//crittercism needs upgrade plan to handled messages work
 				//Crittercism.logHandledException(e);//new Exception("Unable to takePicture of a scanning code"));
 				e.printStackTrace();
-				ImageHelper.removeFromFileSystem(ImageHelper.scanPhotoTempName);
+				ImageHelper.removeFromSDCardPath(ImageHelper.scanPhotoTempName);
 			}
 		}
 	}
